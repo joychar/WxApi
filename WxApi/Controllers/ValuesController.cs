@@ -53,8 +53,6 @@ namespace WxApi.Controllers
                 log.Debug("nonce: " + nonce);
                 log.Debug("echostr: " + echostr);
 
-                //JavaScriptSerializer
-
                 string EchoStr = Common.Valid(signature, timestamp, nonce, echostr);
 
                 if (!string.IsNullOrEmpty(EchoStr))

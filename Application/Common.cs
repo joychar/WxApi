@@ -12,8 +12,13 @@ namespace Application
     {
         public static string Valid(string signature, string timestamp, string nonce, string echostr)
         {
-
-
+            if (CheckSignature(signature, timestamp, nonce))
+            {
+                if (!string.IsNullOrEmpty(echostr))
+                {
+                    return echostr;
+                }
+            }
 
             return string.Empty;
         }
