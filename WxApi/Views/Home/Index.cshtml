@@ -1,24 +1,97 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <title>纯阳</title>
+    <style>
+        .word {
+            writing-mode: vertical-lr;
+            float: left;
+            font-family: 'Microsoft YaHei';
+        }
+    </style>
+    <!-- 落雪效果 -->
+    <script type="text/javascript">
+        var minSize = 5;
+        var maxSize = 50;
+        var newOn = 200;
+        var flakeColor = "#fff";
+        var flake = $("<div></div>").css({ "position": "absolute", "top": "-50px" }).html("❉");
+
+        $(function () {
+            var documentHeight = $(document).height();
+            var documentWidth = $(document).width();
+            setInterval(function () {
+                var startPositionLeft = Math.random() * documentWidth;
+                var startOpacity = 0.5 + Math.random() * 0.5;
+                var endPositionTop = documentHeight - 100;// document.body.clientHeight;
+                var endPositionLeft = Math.random() * documentWidth;
+                var durationFall = 2000 + Math.random() * 2000;
+                var sizeFlake = minSize + Math.random() * (maxSize - minSize);
+
+                flake.clone().appendTo("body").css({
+                    "left": startPositionLeft,
+                    "opacity": startOpacity,
+                    "font-size": sizeFlake,
+                    "color": flakeColor
+                }).animate({
+                    "top": endPositionTop,
+                    "left": endPositionLeft,
+                    "opacity": Math.random()
+                }, durationFall, function () { $(this).remove(); });
+            }, newOn);
+        });
+
+    </script> 
+</head>
+<body>
+    <div>
+
+        <div class="left" style="float:left;width:150px;margin-left:20px;">
+            <div class="word" style="margin-left:20px;">
+                瑶宫寂寞锁千秋，
+            </div>
+            <div class="word" style="margin-top:10px;">
+                九天御风只影游。
+            </div>
+            <div class="word" style="margin-top:20px;">
+                不如笑归红尘去，
+            </div>
+            <div class="word" style="margin-top:30px;">
+                共我飞花携满袖。
+            </div>
+        </div>
+        <div class="img" style="float:left;">
+            <img src="~/Content/images/707962114964913755.jpg" />
+        </div>
+
+        <div class="right" style="float:right;width:90px;">
+            <div class="word">
+                仙传神技，入江湖天涯仗剑。
+            </div>
+            <div class="word" style="margin-top:10px;">
+                酒润柔情，伴红颜且自逍遥。
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
-</div>
+</body>
+<script>
+    $(function () {
+        var height = $(window).height();
+        var width = $(window).width();
+
+        var imgHeight = height - 20;
+        $($("img")[0]).height(imgHeight);
+        var imgWidth = $($(".img")[0]).width();
+
+        var leftWordWidth = $(".left").width();
+
+        var imgMarginLeft = width / 2 - imgWidth / 2 - leftWordWidth;
+        $($(".img")[0]).css("margin-left", imgMarginLeft);
+
+        $(".left").css("margin-top", height * 0.11);
+        $(".right").css("margin-top", height * 0.66);
+
+    });
+</script>
+</html>
