@@ -11,7 +11,7 @@ using System.Text;
 namespace WxApi.Controllers
 {
 
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ApiController
     {
         private static ILog log = LogManager.GetLogger("loginfo");
