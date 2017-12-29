@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public struct AccessToken
+    public struct FailedResultModel
     {
-        public string access_token;
-        public int expires_in;
+        public int errcode;
+        public string errmsg;
     }
 }

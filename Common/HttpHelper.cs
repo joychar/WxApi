@@ -128,5 +128,14 @@ namespace Common
         {
             return true; //总是接受  
         }
+
+        public static string GetData(string url)
+        {
+            HttpWebResponse response = HttpHelper.CreateGetHttpResponse(url, null, null, null);
+
+            Stream stream = response.GetResponseStream();
+            StreamReader streamReader = new StreamReader(stream);
+            return streamReader.ReadToEnd();
+        }
     }
 }

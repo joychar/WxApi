@@ -1,22 +1,18 @@
 ﻿using Common;
 using Model;
 using Newtonsoft.Json;
-using System;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace WxApi.Controllers
+namespace WxApi.Controllers.APIControllers
 {
-    public class FlushAccessTokenController : ApiController
+    public class ServiceIPAddressController : ApiController
     {
-        string FlushUrl = "https://hk.api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
-        string appid = "wx788c08387403462f";
-        string secret = "79e31794ccd81cfe188195827b6c22f5";//
-
+        string requestUrl = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token={0}";
         public HttpResponseMessage Get(string passport)
         {
-            string flushUrl = string.Format(FlushUrl, appid, secret);
+            string flushUrl = string.Format(requestUrl, Application.AccessToken.GetAccessToken());
 
             string data = HttpHelper.GetData(flushUrl);
             AccessTokenModel tokenMessage = JsonConvert.DeserializeObject<AccessTokenModel>(data);
