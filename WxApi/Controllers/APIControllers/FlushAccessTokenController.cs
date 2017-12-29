@@ -31,11 +31,12 @@ namespace WxApi.Controllers
             if (string.IsNullOrEmpty(tokenMessage.access_token))
             {
                 FailedResult errorMessage = JsonConvert.DeserializeObject<FailedResult>(data);
-                return new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "text/plain") };
+
+                string error = Application.ErrorMessage.TranslateErrorCode(errorMessage.errcode);
+                return new HttpResponseMessage { Content = new StringContent(error + System.Environment.NewLine + errorMessage.errmsg, Encoding.GetEncoding("UTF-8"), "text/plain") };
             }
 
-            HttpResponseMessage responseMessage = new HttpResponseMessage { Content = new StringContent(tokenMessage.access_token, Encoding.GetEncoding("UTF-8"), "text/plain") };
-            return responseMessage;
+            return new HttpResponseMessage { Content = new StringContent(tokenMessage.access_token, Encoding.GetEncoding("UTF-8"), "text/plain") };
         }
     }
 }

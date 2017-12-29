@@ -8,7 +8,7 @@ namespace Model
 {
     public struct FailedResult
     {
-        int errcode;
-        string errmsg;
+        public int errcode;
+        public string errmsg;
     }
 }
