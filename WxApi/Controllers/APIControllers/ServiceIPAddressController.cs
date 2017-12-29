@@ -9,12 +9,12 @@ namespace WxApi.Controllers.APIControllers
 {
     public class ServiceIPAddressController : ApiController
     {
-        string requestUrl = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token={0}";
+        string requestUrl = "https://hk.api.weixin.qq.com/cgi-bin/getcallbackip?access_token={0}";
         public HttpResponseMessage Get(string passport)
         {
             string flushUrl = string.Format(requestUrl, Application.AccessToken.GetAccessToken());
 
-            string data = HttpHelper.GetData(flushUrl);
+            string data = HttpHelper.HttpGetData(flushUrl);
             IPAddressModel ipAddressMessage = JsonConvert.DeserializeObject<IPAddressModel>(data);
             if (ipAddressMessage.ip_list == null || ipAddressMessage.ip_list.Length < 1)
             {

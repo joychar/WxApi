@@ -129,9 +129,18 @@ namespace Common
             return true; //总是接受  
         }
 
-        public static string GetData(string url)
+        public static string HttpGetData(string url)
         {
             HttpWebResponse response = HttpHelper.CreateGetHttpResponse(url, null, null, null);
+
+            Stream stream = response.GetResponseStream();
+            StreamReader streamReader = new StreamReader(stream);
+            return streamReader.ReadToEnd();
+        }
+
+        public static string HttpPostData(string url, IDictionary<string, string> parameters, Encoding requestEncoding)
+        {
+            HttpWebResponse response = HttpHelper.CreatePostHttpResponse(url, parameters, null, null, requestEncoding, null);
 
             Stream stream = response.GetResponseStream();
             StreamReader streamReader = new StreamReader(stream);

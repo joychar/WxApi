@@ -1,7 +1,7 @@
-﻿using Common;
+﻿using Application;
+using Common;
 using Model;
 using Newtonsoft.Json;
-using System;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
@@ -18,7 +18,7 @@ namespace WxApi.Controllers
         {
             string flushUrl = string.Format(FlushUrl, appid, secret);
 
-            string data = HttpHelper.GetData(flushUrl);
+            string data = HttpHelper.HttpGetData(flushUrl);
             AccessTokenModel tokenMessage = JsonConvert.DeserializeObject<AccessTokenModel>(data);
             if (string.IsNullOrEmpty(tokenMessage.access_token))
             {
@@ -27,6 +27,7 @@ namespace WxApi.Controllers
                 string error = Application.ErrorMessage.TranslateErrorCode(errorMessage.errcode);
                 return new HttpResponseMessage { Content = new StringContent(error + System.Environment.NewLine + errorMessage.errmsg, Encoding.GetEncoding("UTF-8"), "text/plain") };
             }
+            AccessToken.RecordAccessToken(tokenMessage.access_token);
 
             return new HttpResponseMessage { Content = new StringContent(tokenMessage.access_token, Encoding.GetEncoding("UTF-8"), "text/plain") };
         }

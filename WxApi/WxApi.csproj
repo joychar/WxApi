@@ -217,6 +217,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\APIControllers\ValuesController.cs" />
     <Compile Include="Controllers\APIControllers\WxController.cs" />
+    <Compile Include="Controllers\UploadResourceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -290,8 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\FlushAccessToken\" />
-    <Folder Include="Views\Wx\" />
+    <Folder Include="Views\UploadResource\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
