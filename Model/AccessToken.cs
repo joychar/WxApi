@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace Model
 {
-    public class Class1
+    public struct AccessToken
     {
+        public string access_token;
+        public int expires_in;
     }
 }

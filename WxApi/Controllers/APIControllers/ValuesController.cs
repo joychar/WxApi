@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
-using Application;
 
 namespace WxApi.Controllers
 {
