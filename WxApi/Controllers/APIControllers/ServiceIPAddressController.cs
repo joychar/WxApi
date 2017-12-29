@@ -15,8 +15,8 @@ namespace WxApi.Controllers.APIControllers
             string flushUrl = string.Format(requestUrl, Application.AccessToken.GetAccessToken());
 
             string data = HttpHelper.GetData(flushUrl);
-            AccessTokenModel tokenMessage = JsonConvert.DeserializeObject<AccessTokenModel>(data);
-            if (string.IsNullOrEmpty(tokenMessage.access_token))
+            IPAddressModel ipAddressMessage = JsonConvert.DeserializeObject<IPAddressModel>(data);
+            if (ipAddressMessage.ip_list == null || ipAddressMessage.ip_list.Length < 1)
             {
                 FailedResultModel errorMessage = JsonConvert.DeserializeObject<FailedResultModel>(data);
 
@@ -24,7 +24,7 @@ namespace WxApi.Controllers.APIControllers
                 return new HttpResponseMessage { Content = new StringContent(error + System.Environment.NewLine + errorMessage.errmsg, Encoding.GetEncoding("UTF-8"), "text/plain") };
             }
 
-            return new HttpResponseMessage { Content = new StringContent(tokenMessage.access_token, Encoding.GetEncoding("UTF-8"), "text/plain") };
+            return new HttpResponseMessage { Content = new StringContent(string.Join(",", ipAddressMessage.ip_list), Encoding.GetEncoding("UTF-8"), "text/plain") };
         }
     }
 }
