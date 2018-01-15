@@ -218,6 +218,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\APIControllers\AccountController.cs" />
     <Compile Include="Controllers\APIControllers\FlushAccessTokenController.cs" />
+    <Compile Include="Controllers\APIControllers\MessageController.cs" />
     <Compile Include="Controllers\APIControllers\ServiceIPAddressController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\APIControllers\ValuesController.cs" />
