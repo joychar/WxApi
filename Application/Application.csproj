@@ -50,9 +50,16 @@
     <Compile Include="CheckWeChartSignature.cs" />
     <Compile Include="ErrorMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WxMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{8F0A48DD-3B91-4FF2-9CCC-9788B68228B8}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

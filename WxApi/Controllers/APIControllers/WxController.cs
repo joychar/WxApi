@@ -3,7 +3,7 @@ using System.Text;
 using System.Web.Http;
 using Application;
 
-namespace WxApi.Controllers
+namespace WxApi.Controllers.APIControllers
 {
     public class WxController : ApiController
     {

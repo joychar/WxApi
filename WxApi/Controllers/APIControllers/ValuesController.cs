@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace WxApi.Controllers
+namespace WxApi.Controllers.APIControllers
 {
 
     //[Authorize]

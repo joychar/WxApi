@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-namespace WxApi.Controllers
+namespace WxApi.Controllers.APIControllers
 {
     public class FlushAccessTokenController : ApiController
     {
