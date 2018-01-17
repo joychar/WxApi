@@ -16,16 +16,18 @@ namespace WxApi.Controllers.APIControllers
     public class MessageController : ApiController
     {
         private ILog log = LogManager.GetLogger(typeof(MessageController).ToString());
-
+        
         public HttpResponseMessage Post()
         {
             Stream requestStream = System.Web.HttpContext.Current.Request.InputStream;
             byte[] requestByte = new byte[requestStream.Length];
             requestStream.Read(requestByte, 0, (int)requestStream.Length);
             string requestStr = Encoding.UTF8.GetString(requestByte);
+            log.Info(requestStr);
 
             string responseStr = new WxMessage().Response(requestStr);
-            return new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "text/plain") };
+            log.Info(responseStr);
+            return new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "application/xml") };
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Model.ViewModel
     /// 微信接口XmlModel
     /// XML解析
     /// </summary>
-    public class WxXmlModel
+    public class WxMessageResXmlModel
     {
         /// <summary>
         /// 消息接收方微信号
@@ -29,40 +29,33 @@ namespace Model.ViewModel
         /// </summary>
         public string MsgType { get; set; }
         /// <summary>
-        /// 信息内容
+        /// 
         /// </summary>
         public string Content { get; set; }
         /// <summary>
-        /// 地理位置纬度
+        /// 通过素材管理中的接口上传多媒体文件，得到的id。
         /// </summary>
-        public string Location_X { get; set; }
+        public string MediaId { get; set; }
         /// <summary>
-        /// 地理位置经度
+        /// 
         /// </summary>
-        public string Location_Y { get; set; }
+        public string Title { get; set; }
         /// <summary>
-        /// 地图缩放大小
+        /// 
         /// </summary>
-        public string Scale { get; set; }
+        public string Description { get; set; }
         /// <summary>
-        /// 地理位置信息
+        /// 
         /// </summary>
-        public string Label { get; set; }
+        public string MusicURL { get; set; }
         /// <summary>
-        /// 图片链接，开发者可以用HTTP GET获取
+        /// 
         /// </summary>
+        public string HQMusicUrl { get; set; }
+        public string ThumbMediaId { get; set; }
+        public string ArticleCount { get; set; }
+        public string Articles { get; set; }
         public string PicUrl { get; set; }
-        /// <summary>
-        /// 事件类型，subscribe(订阅/扫描带参数二维码订阅)、unsubscribe(取消订阅)、CLICK(自定义菜单点击事件) 、SCAN（已关注的状态下扫描带参数二维码）
-        /// </summary>
-        public string Event { get; set; }
-        /// <summary>
-        /// 事件KEY值
-        /// </summary>
-        public string EventKey { get; set; }
-        /// <summary>
-        /// 二维码的ticket，可以用来换取二维码
-        /// </summary>
-        public string Ticket { get; set; }
+        public string Url { get; set; }
     }
 }

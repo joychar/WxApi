@@ -47,7 +47,8 @@
     <Compile Include="ViewModel\UploadImgModel.cs" />
     <Compile Include="PostModel\PostNewsModel.cs" />
     <Compile Include="ViewModel\UploadNewsModel.cs" />
-    <Compile Include="ViewModel\WxMessageViewModel.cs" />
+    <Compile Include="ViewModel\WxMessageRecXmlModel.cs" />
+    <Compile Include="ViewModel\WxMessageResXmlModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppModel\" />

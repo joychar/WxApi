@@ -12,9 +12,9 @@ namespace Application
     public class WxMessage
     {
 
-        public WxXmlModel InitMessageModel(string Msg)
+        public WxMessageRecXmlModel InitMessageModel(string Msg)
         {
-            WxXmlModel model = new WxXmlModel();
+            WxMessageRecXmlModel model = new WxMessageRecXmlModel();
 
             if (string.IsNullOrEmpty(Msg)) return model;
 
@@ -22,7 +22,7 @@ namespace Application
             XmlDocument requestDocXml = new XmlDocument();
             requestDocXml.LoadXml(Msg);
             XmlElement rootElement = requestDocXml.DocumentElement;
-            WxXmlModel WxXmlModel = new WxXmlModel();
+            WxMessageRecXmlModel WxXmlModel = new WxMessageRecXmlModel();
             WxXmlModel.ToUserName = rootElement.SelectSingleNode("ToUserName").InnerText;
             WxXmlModel.FromUserName = rootElement.SelectSingleNode("FromUserName").InnerText;
             WxXmlModel.CreateTime = rootElement.SelectSingleNode("CreateTime").InnerText;
@@ -43,24 +43,32 @@ namespace Application
                     }
                     break;
                 default:
+                    WxXmlModel.Content = rootElement.SelectSingleNode("Content").InnerText;
                     break;
             }
 
             return model;
         }
 
-        public WxXmlModel ResponseModel(WxXmlModel ReciveModel)
+        public WxMessageResXmlModel ResponseModel(WxMessageRecXmlModel ReciveModel)
         {
-            WxXmlModel responseModel = new WxXmlModel();
+            WxMessageResXmlModel responseModel = new WxMessageResXmlModel();
 
             responseModel.ToUserName = ReciveModel.FromUserName;
             responseModel.FromUserName = ReciveModel.ToUserName;
             responseModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
+            responseModel.MsgType = ReciveModel.MsgType;
             switch (ReciveModel.MsgType)
             {
+                case "text":
+                    responseModel.Content = "收到文本消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
+                    break;
+                case "image"://图片
+                    responseModel.MediaId = "0";
+                    break;
                 default:
                     responseModel.MsgType = "text";
-                    responseModel.Content = "收到消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
+                    responseModel.Content = "收到文本消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
                     break;
             }
             
@@ -68,24 +76,7 @@ namespace Application
             return responseModel;
         }
 
-        public string Response(WxXmlModel ReciveModel)
-        {
-            string response = string.Empty;
-            StringBuilder sb = new StringBuilder();
-
-            WxXmlModel ResponseModel = this.ResponseModel(ReciveModel);
-
-            switch (ResponseModel.MsgType)
-            {
-                default:
-
-                    break;
-            }
-
-            return response;
-        }
-
-        public string GetResponseStr(WxXmlModel ResponseModel)
+        public string GetResponse(WxMessageResXmlModel ResponseModel)
         {
             XmlDocument xml = new XmlDocument();
 
@@ -111,8 +102,8 @@ namespace Application
 
         public string Response(string msg)
         {
-            WxXmlModel reciveModel = InitMessageModel(msg);
-            return Response(reciveModel);
+            WxMessageResXmlModel responseModel = ResponseModel(InitMessageModel(msg));
+            return GetResponse(responseModel);
         }
     }
 }
