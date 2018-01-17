@@ -221,7 +221,6 @@
     <Compile Include="Controllers\APIControllers\MessageController.cs" />
     <Compile Include="Controllers\APIControllers\ServiceIPAddressController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\APIControllers\ValuesController.cs" />
     <Compile Include="Controllers\APIControllers\WxController.cs" />
     <Compile Include="Controllers\UploadResourceController.cs" />
     <Compile Include="Global.asax.cs">

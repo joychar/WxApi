@@ -24,9 +24,8 @@ namespace WxApi.Controllers.APIControllers
             requestStream.Read(requestByte, 0, (int)requestStream.Length);
             string requestStr = Encoding.UTF8.GetString(requestByte);
 
-            WxXmlModel model = new WxMessage().InitMessage(requestStr);
-
-            return new HttpResponseMessage { Content = new StringContent("ToUserName:"+ ToUserName, Encoding.GetEncoding("UTF-8"), "text/plain") };
+            string responseStr = new WxMessage().Response(requestStr);
+            return new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "text/plain") };
         }
     }
 }
