@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
+
 namespace WxApi.Controllers.APIControllers
 {
     public class MessageController : ApiController

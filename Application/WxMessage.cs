@@ -57,7 +57,7 @@ namespace Application
             responseModel.ToUserName = ReciveModel.FromUserName;
             responseModel.FromUserName = ReciveModel.ToUserName;
             responseModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
-            responseModel.MsgType = ReciveModel.MsgType;
+            responseModel.MsgType = "text";
             switch (ReciveModel.MsgType)
             {
                 case "text":
@@ -67,8 +67,7 @@ namespace Application
                     responseModel.MediaId = "0";
                     break;
                 default:
-                    responseModel.MsgType = "text";
-                    responseModel.Content = "收到文本消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
+                    responseModel.Content = "收到消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
                     break;
             }
             
@@ -96,6 +95,16 @@ namespace Application
             XmlElement createTime = xml.CreateElement("CreateTime");
             createTime.InnerText = ResponseModel.CreateTime;
             root.AppendChild(createTime);
+
+            XmlElement msgType = xml.CreateElement("MsgType");
+            XmlCDataSection type = xml.CreateCDataSection(ResponseModel.MsgType);
+            msgType.AppendChild(type);
+            root.AppendChild(msgType);
+
+            XmlElement content = xml.CreateElement("Content");
+            XmlCDataSection cont = xml.CreateCDataSection(ResponseModel.Content);
+            content.AppendChild(cont);
+            root.AppendChild(content);
 
             return xml.OuterXml;
         }

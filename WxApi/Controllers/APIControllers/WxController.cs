@@ -2,11 +2,15 @@
 using System.Text;
 using System.Web.Http;
 using Application;
+using System.IO;
+using log4net;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace WxApi.Controllers.APIControllers
 {
     public class WxController : ApiController
     {
+        private ILog log = LogManager.GetLogger(typeof(MessageController).ToString());
         private readonly string TOKEN = "pandahouse";
         // GET: Wx
         public HttpResponseMessage Get(string signature, string timestamp, string nonce, string echostr)
@@ -18,7 +22,18 @@ namespace WxApi.Controllers.APIControllers
             return responseMessage;
         }
 
-        
-        
+
+        public HttpResponseMessage Post()
+        {
+            Stream requestStream = System.Web.HttpContext.Current.Request.InputStream;
+            byte[] requestByte = new byte[requestStream.Length];
+            requestStream.Read(requestByte, 0, (int)requestStream.Length);
+            string requestStr = Encoding.UTF8.GetString(requestByte);
+            log.Info(requestStr);
+
+            string responseStr = new WxMessage().Response(requestStr);
+            log.Info(responseStr);
+            return new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "application/xml") };
+        }
     }
 }
