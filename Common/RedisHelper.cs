@@ -19,7 +19,6 @@ namespace Common
         /// </summary>
         private static string ConnStr = ConfigurationManager.AppSettings["rpath"];
         
-
         /// <summary>
         /// 锁
         /// </summary>
@@ -30,6 +29,9 @@ namespace Common
         /// </summary>
         private volatile IConnectionMultiplexer _connection;
 
+        /// <summary>
+        /// 数据库
+        /// </summary>
         private IDatabase _db;
 
         public RedisHelper()
@@ -38,6 +40,10 @@ namespace Common
             _db = GetDataBase();
         }
 
+        /// <summary>
+        /// 获取连接
+        /// </summary>
+        /// <returns></returns>
         protected IConnectionMultiplexer GetConnection()
         {
             if (_connection != null && _connection.IsConnected)
@@ -109,6 +115,11 @@ namespace Common
             return result;
         }
 
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool IsSet(string key)
         {
             return _db.KeyExists(key);
