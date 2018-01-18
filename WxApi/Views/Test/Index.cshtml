@@ -7,11 +7,10 @@
 <script type="text/javascript">
     var data = '<xml><ToUserName><![CDATA[gh_d8f902cb0782]]></ToUserName><FromUserName><![CDATA[o20vNs15Uj_bXSVluqRl3GTH8lNw]]></FromUserName><CreateTime>1516179584</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[123]]></Content><MsgId>6511941728563317734</MsgId></xml>';
 
-    $("#postXml").click(function () {
+    function post() {
         $.ajax({
-            url: "/api/Wx",
+            url: "/Wx.ashx",
             type: "post",
-            contentType: "application/xml; charset=utf-8",
             data: data,
             dataType: "xml",
             anysc: false,
@@ -23,9 +22,51 @@
             }
 
         });
-    });
+    }
 
+    function setRedis() {
+        var val = $("#setval").val();
+        $.ajax({
+            url: "/test/set",
+            type: "post",
+            data:
+                {
+                    key: "test",
+                    value: val
+                },
+            dataType: "json",
+            anysc: false,
+            success: function (result) {
+                alert(result);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown + ':' + textStatus); // 错误处理
+            }
+
+        });
+    }
+
+    function getRedis() {
+        var i = 0;
+        $.ajax({
+            url: "/test/get",
+            type: "post",
+            data: { key:"test" },
+            dataType: "json",
+            anysc: false,
+            success: function (result) {
+                alert(result.result);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown + ':' + textStatus); // 错误处理
+            }
+
+        });
+    }
 </script>
 <h2>Index</h2>
 
-<input id="postXml" type="button" value="postXML"/>
+<input type="button" value="postXML" onclick="post()"/><br />
+<input id="setval" type="text" value="" />
+<input type="button" value="setRedis" onclick="setRedis()" /><br />
+<input type="button" value="getRedis" onclick="getRedis()" />

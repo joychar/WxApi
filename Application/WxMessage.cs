@@ -22,28 +22,27 @@ namespace Application
             XmlDocument requestDocXml = new XmlDocument();
             requestDocXml.LoadXml(Msg);
             XmlElement rootElement = requestDocXml.DocumentElement;
-            WxMessageRecXmlModel WxXmlModel = new WxMessageRecXmlModel();
-            WxXmlModel.ToUserName = rootElement.SelectSingleNode("ToUserName").InnerText;
-            WxXmlModel.FromUserName = rootElement.SelectSingleNode("FromUserName").InnerText;
-            WxXmlModel.CreateTime = rootElement.SelectSingleNode("CreateTime").InnerText;
-            WxXmlModel.MsgType = rootElement.SelectSingleNode("MsgType").InnerText;
-            switch (WxXmlModel.MsgType)
+            model.ToUserName = rootElement.SelectSingleNode("ToUserName").InnerText;
+            model.FromUserName = rootElement.SelectSingleNode("FromUserName").InnerText;
+            model.CreateTime = rootElement.SelectSingleNode("CreateTime").InnerText;
+            model.MsgType = rootElement.SelectSingleNode("MsgType").InnerText;
+            switch (model.MsgType)
             {
                 case "text"://文本
-                    WxXmlModel.Content = rootElement.SelectSingleNode("Content").InnerText;
+                    model.Content = rootElement.SelectSingleNode("Content").InnerText;
                     break;
                 case "image"://图片
-                    WxXmlModel.PicUrl = rootElement.SelectSingleNode("PicUrl").InnerText;
+                    model.PicUrl = rootElement.SelectSingleNode("PicUrl").InnerText;
                     break;
                 case "event"://事件
-                    WxXmlModel.Event = rootElement.SelectSingleNode("Event").InnerText;
-                    if (WxXmlModel.Event == "subscribe")//关注类型
+                    model.Event = rootElement.SelectSingleNode("Event").InnerText;
+                    if (model.Event == "subscribe")//关注类型
                     {
-                        WxXmlModel.EventKey = rootElement.SelectSingleNode("EventKey").InnerText;
+                        model.EventKey = rootElement.SelectSingleNode("EventKey").InnerText;
                     }
                     break;
                 default:
-                    WxXmlModel.Content = rootElement.SelectSingleNode("Content").InnerText;
+                    model.Content = rootElement.SelectSingleNode("Content").InnerText;
                     break;
             }
 
@@ -61,13 +60,13 @@ namespace Application
             switch (ReciveModel.MsgType)
             {
                 case "text":
-                    responseModel.Content = "收到文本消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
+                    responseModel.Content = "收到文本消息，内容：" + ReciveModel.Content;
                     break;
                 case "image"://图片
                     responseModel.MediaId = "0";
                     break;
                 default:
-                    responseModel.Content = "收到消息，内容：" + System.Environment.NewLine + ReciveModel.Content;
+                    responseModel.Content = "收到消息，内容：" + ReciveModel.Content;
                     break;
             }
             
@@ -106,12 +105,13 @@ namespace Application
             content.AppendChild(cont);
             root.AppendChild(content);
 
-            return xml.OuterXml;
+            return xml.InnerXml;
         }
 
         public string Response(string msg)
         {
-            WxMessageResXmlModel responseModel = ResponseModel(InitMessageModel(msg));
+            WxMessageRecXmlModel requestModec = InitMessageModel(msg);
+            WxMessageResXmlModel responseModel = ResponseModel(requestModec);
             return GetResponse(responseModel);
         }
     }

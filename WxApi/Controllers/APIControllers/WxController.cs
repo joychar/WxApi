@@ -4,6 +4,7 @@ using System.Web.Http;
 using Application;
 using System.IO;
 using log4net;
+using System.Web;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace WxApi.Controllers.APIControllers
@@ -33,7 +34,8 @@ namespace WxApi.Controllers.APIControllers
 
             string responseStr = new WxMessage().Response(requestStr);
             log.Info(responseStr);
-            return new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "application/xml") };
+            HttpResponseMessage responseMessage = new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "text/plain") };
+            return responseMessage;
         }
     }
 }

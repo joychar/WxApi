@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +10,27 @@ namespace WxApi.Controllers
 {
     public class TestController : Controller
     {
+        private RedisHelper redis = new RedisHelper();
+
         // GET: Test
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Set(string key,string value)
+        {
+            redis.Set(key, value, 2);
+
+            var data = new { state = "success"  };
+            return Content(JsonConvert.SerializeObject(data));
+        }
+
+        public ActionResult Get(string key)
+        {
+            var  data = new { result = redis.Get<string>(key) };
+
+            return Content(JsonConvert.SerializeObject(data));
         }
     }
 }
