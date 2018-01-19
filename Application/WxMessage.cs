@@ -87,7 +87,7 @@ namespace Application
             root.AppendChild(toUserName);
 
             XmlElement fromUserName = xml.CreateElement("FromUserName");
-            XmlCDataSection fromName = xml.CreateCDataSection(ResponseModel.ToUserName);
+            XmlCDataSection fromName = xml.CreateCDataSection(ResponseModel.FromUserName);
             fromUserName.AppendChild(fromName);
             root.AppendChild(fromUserName);
 
@@ -114,5 +114,6 @@ namespace Application
             WxMessageResXmlModel responseModel = ResponseModel(requestModec);
             return GetResponse(responseModel);
         }
+
     }
 }

@@ -21,19 +21,18 @@ namespace WxApi
         {
             context.Response.ContentType = "text/plain";
             if (context.Request.HttpMethod.ToLower() == "post")
-
             {
                 Stream requestStream = System.Web.HttpContext.Current.Request.InputStream;
                 byte[] requestByte = new byte[requestStream.Length];
                 requestStream.Read(requestByte, 0, (int)requestStream.Length);
                 string requestStr = Encoding.UTF8.GetString(requestByte);
-                log.Info(requestStr);
+                
 
                 string responseStr = new WxMessage().Response(requestStr);
+                log.Info("Ashx回复：" + responseStr);
                 HttpContext.Current.Response.Write(responseStr);
                 HttpContext.Current.Response.End();
             }
-
             else
             {
                 if (string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["echoStr"]))
@@ -48,7 +47,6 @@ namespace WxApi
                 string nonce = HttpContext.Current.Request.QueryString["nonce"].ToString();
 
                 if (CheckWeChartSignature.CheckSignature(TOKEN, signature, timestamp, nonce))
-
                 {
                     HttpContext.Current.Response.Write(echoStr);
                     HttpContext.Current.Response.End();
