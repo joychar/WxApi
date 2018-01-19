@@ -63,13 +63,13 @@ namespace Application
                     responseModel.Content = "收到文本消息，内容：" + ReciveModel.Content;
                     break;
                 case "image"://图片
-                    responseModel.MediaId = "0";
+                    responseModel.Content = "收到图片消息，内容：" + ReciveModel.Content;
                     break;
                 default:
                     responseModel.Content = "收到消息，内容：" + ReciveModel.Content;
                     break;
             }
-            
+
 
             return responseModel;
         }
@@ -104,6 +104,41 @@ namespace Application
             XmlCDataSection cont = xml.CreateCDataSection(ResponseModel.Content);
             content.AppendChild(cont);
             root.AppendChild(content);
+
+            return xml.InnerXml;
+        }
+
+        public string GetSecretResponse(WxMessageResXmlModel ResponseModel, string sReqTimeStamp, string sReqNonce)
+        {
+            string sToken = "";
+            string sEncodingAESKey = "";
+            string sAppID = "";
+
+            Tencent.WXBizMsgCrypt wxcpt = new Tencent.WXBizMsgCrypt(sToken, sEncodingAESKey, sAppID);
+
+            string sRespData = GetResponse(ResponseModel);
+            string sEncryptMsg = ""; //xml格式的密文
+            int ret = wxcpt.EncryptMsg(sRespData, sReqTimeStamp, sReqNonce, ref sEncryptMsg);
+
+            XmlDocument xml = new XmlDocument();
+
+            XmlElement root = xml.CreateElement("xml");
+            xml.AppendChild(root);
+
+            XmlElement Encrypt = xml.CreateElement("Encrypt");
+            XmlCDataSection encrypt = xml.CreateCDataSection(sEncryptMsg);
+            Encrypt.AppendChild(encrypt);
+            root.AppendChild(Encrypt);
+
+            XmlElement MsgSignature = xml.CreateElement("MsgSignature");
+            root.AppendChild(MsgSignature);
+
+            XmlElement TimeStamp = xml.CreateElement("TimeStamp");
+            TimeStamp.InnerText = ResponseModel.CreateTime;
+            root.AppendChild(TimeStamp);
+            
+            XmlElement Nonce = xml.CreateElement("Nonce");
+            root.AppendChild(Nonce);
 
             return xml.InnerXml;
         }
