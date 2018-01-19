@@ -5,6 +5,7 @@ using Application;
 using System.IO;
 using log4net;
 using System.Web;
+using System;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace WxApi.Controllers.APIControllers
@@ -16,8 +17,7 @@ namespace WxApi.Controllers.APIControllers
         // GET: Wx
         public HttpResponseMessage Get(string signature, string timestamp, string nonce, string echostr)
         {
-            if (!CheckWeChartSignature.CheckSignature(TOKEN, signature, timestamp, nonce))
-                echostr = "验证不正确";
+            if (!CheckWeChartSignature.CheckSignature(TOKEN, signature, timestamp, nonce)) echostr = "验证不正确";
             HttpResponseMessage responseMessage = new HttpResponseMessage { Content = new StringContent(echostr, Encoding.GetEncoding("UTF-8"), "text/plain") };
 
             return responseMessage;
@@ -26,15 +26,39 @@ namespace WxApi.Controllers.APIControllers
 
         public HttpResponseMessage Post()
         {
-            Stream requestStream = System.Web.HttpContext.Current.Request.InputStream;
-            byte[] requestByte = new byte[requestStream.Length];
-            requestStream.Read(requestByte, 0, (int)requestStream.Length);
-            string requestStr = Encoding.UTF8.GetString(requestByte);
+            string signature = HttpContext.Current.Request.QueryString["signature"];
+            string timestamp = HttpContext.Current.Request.QueryString["timestamp"];
+            string nonce = HttpContext.Current.Request.QueryString["nonce"];
+            string echostr = HttpContext.Current.Request.QueryString["echostr"];
 
-            string responseStr = new WxMessage().Response(requestStr);
-            log.Info("Controller回复：" + responseStr);
+            HttpResponseMessage responseMessage;
 
-            HttpResponseMessage responseMessage = new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "text/plain") };
+            try
+            {
+                if (!CheckWeChartSignature.CheckSignature(TOKEN, signature, timestamp, nonce))
+                {
+                    echostr = "验证不正确";
+                    responseMessage = new HttpResponseMessage { Content = new StringContent(echostr, Encoding.GetEncoding("UTF-8"), "text/plain") };
+                }
+                else
+                {
+                    Stream requestStream = System.Web.HttpContext.Current.Request.InputStream;
+                    byte[] requestByte = new byte[requestStream.Length];
+                    requestStream.Read(requestByte, 0, (int)requestStream.Length);
+                    string requestStr = Encoding.UTF8.GetString(requestByte);
+
+                    string responseStr = new WxMessage().Response(requestStr);
+                    log.Info("Controller回复：" + responseStr);
+
+                    responseMessage = new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "text/plain") };
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                responseMessage = new HttpResponseMessage { Content = new StringContent("Success", Encoding.GetEncoding("UTF-8"), "text/plain") };
+            }
+
             return responseMessage;
         }
     }

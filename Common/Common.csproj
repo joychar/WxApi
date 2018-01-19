@@ -55,6 +55,8 @@
     <Compile Include="FileOperator.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="LogHelper.cs" />
+    <Compile Include="MessageSecret\Cryptography.cs" />
+    <Compile Include="MessageSecret\WXBizMsgCrypt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisHelper.cs" />
     <Compile Include="TimeHelper.cs" />
