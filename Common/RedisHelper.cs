@@ -85,16 +85,16 @@ namespace Common
         /// <param name="key"></param>
         /// <param name="data"></param>
         /// <param name="cacheTime"></param>
-        public virtual void Set(string key, object data, int cacheTime)
+        public virtual bool Set(string key, object data, int cacheTime)
         {
             if (_db == null)
             {
-                return;
+                return false;
             }
 
             var entryBytes = Serialize(data);
             var expiresIn = TimeSpan.FromMinutes(cacheTime);
-            _db.StringSet(key, entryBytes, expiresIn);
+            return _db.StringSet(key, entryBytes, expiresIn);
         }
 
         /// <summary>
