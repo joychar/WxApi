@@ -7,11 +7,11 @@ namespace Application
 {
     public class AccessToken
     {
-        private string FlushUrl = "https://hk.api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
-        string appid = "wx788c08387403462f";
-        string secret = "79e31794ccd81cfe188195827b6c22f5";
+        private static string FlushUrl = "https://hk.api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
+        static string appid = "wx788c08387403462f";
+        static string secret = "79e31794ccd81cfe188195827b6c22f5";
 
-        public bool RecordAccessToken()
+        public static bool RecordAccessToken()
         {
             string flushUrl = string.Format(FlushUrl, appid, secret);
 
@@ -30,7 +30,7 @@ namespace Application
             return true;
         }
 
-        public string GetAccessToken()
+        public static string GetAccessToken()
         {
             RedisHelper redis = new RedisHelper();
             if (!redis.IsSet("WeChatToken"))
