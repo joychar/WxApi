@@ -224,7 +224,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\APIControllers\WxController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\UploadResourceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
