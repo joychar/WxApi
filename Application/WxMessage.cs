@@ -63,7 +63,7 @@ namespace Application
                     if (CatchKeyWord.IsKeyWord(ReciveModel.Content))
                     {
                         //处理关键字消息，暂时做文本消息处理
-                        responseModel.Content = "收到文本消息，内容：" + ReciveModel.Content;
+                        responseModel.Content = "收到关键字消息，内容：" + ReciveModel.Content;
                     }
                     else
                     {

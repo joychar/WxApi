@@ -15,12 +15,16 @@ namespace Application
         public static string AskTuring(string user, string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-
-            string data = HttpHelper.HttpPostData(requestUrl,param,Encoding.GetEncoding("UTF8"));
-
-
-
-            return content+" 是什么鬼？？";
+            bool trans = true;
+            if (trans)
+            {
+                return content + " 是什么鬼？？";
+            }
+            else
+            {
+                string data = HttpHelper.HttpPostData(requestUrl, param, Encoding.GetEncoding("UTF8"));
+                return "";
+            }            
         }
     }
 }
