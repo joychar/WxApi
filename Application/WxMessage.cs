@@ -60,13 +60,22 @@ namespace Application
             switch (ReciveModel.MsgType)
             {
                 case "text":
-                    responseModel.Content = "收到文本消息，内容：" + ReciveModel.Content;
+                    if (CatchKeyWord.IsKeyWord(ReciveModel.Content))
+                    {
+                        //处理关键字消息，暂时做文本消息处理
+                        responseModel.Content = "收到文本消息，内容：" + ReciveModel.Content;
+                    }
+                    else
+                    {
+                        string user = ReciveModel.FromUserName.Replace("_","");
+                        responseModel.Content = TuringRebotRequest.AskTuring(user, ReciveModel.Content);
+                    }
                     break;
                 case "image"://图片
-                    responseModel.Content = "收到图片消息，内容：" + ReciveModel.Content;
+                    responseModel.Content = "发的是什么鬼！！";//，内容：" + ReciveModel.Content;
                     break;
                 default:
-                    responseModel.Content = "收到消息，内容：" + ReciveModel.Content;
+                    responseModel.Content = "虽然你说了那么多，我就当没听见吧。";
                     break;
             }
 

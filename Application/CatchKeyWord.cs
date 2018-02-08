@@ -14,14 +14,14 @@ namespace Application
         /// <summary>
         /// 功能关键字
         /// </summary>
-        private List<string> keyword = new List<string>() { "记密码" };
+        private static List<string> keyword = new List<string>() { "记密码" };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Msg"></param>
         /// <returns></returns>
-        public bool IsKeyWord(string Msg)
+        public static bool IsKeyWord(string Msg)
         {
             return keyword.Contains(Msg);
         }

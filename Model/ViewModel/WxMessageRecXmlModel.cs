@@ -64,5 +64,6 @@ namespace Model.ViewModel
         /// 二维码的ticket，可以用来换取二维码
         /// </summary>
         public string Ticket { get; set; }
+        public string MsgId { get; set; }
     }
 }
