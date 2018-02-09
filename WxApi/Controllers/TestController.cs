@@ -36,10 +36,9 @@ namespace WxApi.Controllers
 
         public ActionResult PostTuring(string content)
         {
-            string say = TuringRebotRequest.AskTuring("123", content);
-
-
-            var data = new { state = true, content = say };
+            string requestStr = "<xml><ToUserName><![CDATA[gh_d8f902cb0782]]></ToUserName><FromUserName><![CDATA[o20vNs15Uj_bXSVluqRl3GTH8lNw]]></FromUserName><CreateTime>1517840692</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[" + content + "]]></Content></xml>";
+            string responseStr = new WxMessage().Response(requestStr);
+            var data = new { state = true, content = responseStr };
             return Content(JsonConvert.SerializeObject(data));
         }
     }

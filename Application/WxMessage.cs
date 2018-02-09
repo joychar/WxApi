@@ -56,7 +56,7 @@ namespace Application
             switch (ReciveModel.MsgType)
             {
                 case "text":
-                    
+
                     if (CatchKeyWord.IsKeyWord(ReciveModel.Content))
                     {
                         responseModel.ToUserName = ReciveModel.FromUserName;
@@ -68,7 +68,7 @@ namespace Application
                     }
                     else
                     {
-                        string user = ReciveModel.FromUserName.Replace("_","");
+                        string user = ReciveModel.FromUserName.Replace("_", "");
                         TuringResponseModel TuringModel = TuringRebotRequest.AskTuring(user, ReciveModel.Content);
                         responseModel = TuringResponseModel(TuringModel, ReciveModel);
                     }
@@ -96,11 +96,26 @@ namespace Application
         public WxMessageResXmlModel TuringResponseModel(TuringResponseModel TuringResponseModel, WxMessageRecXmlModel ReciveModel)
         {
             WxMessageResXmlModel WxMessageResXmlModel = new WxMessageResXmlModel();
+            WxMessageResXmlModel.ToUserName = ReciveModel.FromUserName;
+            WxMessageResXmlModel.FromUserName = ReciveModel.ToUserName;
+            WxMessageResXmlModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
+
             switch (TuringResponseModel.code)
             {
+                case 100000://文本类
+                    WxMessageResXmlModel.MsgType = "text";
+                    WxMessageResXmlModel.Content = TuringResponseModel.text;
+                    break;
+                case 200000://链接类
+                    WxMessageResXmlModel.MsgType = "text";
+                    WxMessageResXmlModel.Content = TuringResponseModel.text + System.Environment.NewLine + TuringResponseModel.url;
+                    break;
+                case 302000://新闻类
+                    break;
+                case 308000://菜谱类
+                    break;
                 default:
-                    
-                        break;
+                    break;
             }
             return WxMessageResXmlModel;
         }
@@ -167,7 +182,7 @@ namespace Application
             XmlElement TimeStamp = xml.CreateElement("TimeStamp");
             TimeStamp.InnerText = ResponseModel.CreateTime;
             root.AppendChild(TimeStamp);
-            
+
             XmlElement Nonce = xml.CreateElement("Nonce");
             root.AppendChild(Nonce);
 
