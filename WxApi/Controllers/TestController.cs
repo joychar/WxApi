@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using Application;
+using Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,15 @@ namespace WxApi.Controllers
         {
             var  data = new { result = redis.Get<string>(key) };
 
+            return Content(JsonConvert.SerializeObject(data));
+        }
+
+        public ActionResult PostTuring(string content)
+        {
+            string say = TuringRebotRequest.AskTuring("123", content);
+
+
+            var data = new { state = true, content = say };
             return Content(JsonConvert.SerializeObject(data));
         }
     }

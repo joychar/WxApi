@@ -53,34 +53,56 @@ namespace Application
         {
             WxMessageResXmlModel responseModel = new WxMessageResXmlModel();
 
-            responseModel.ToUserName = ReciveModel.FromUserName;
-            responseModel.FromUserName = ReciveModel.ToUserName;
-            responseModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
-            responseModel.MsgType = "text";
             switch (ReciveModel.MsgType)
             {
                 case "text":
+                    
                     if (CatchKeyWord.IsKeyWord(ReciveModel.Content))
                     {
+                        responseModel.ToUserName = ReciveModel.FromUserName;
+                        responseModel.FromUserName = ReciveModel.ToUserName;
+                        responseModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
+                        responseModel.MsgType = "text";
                         //处理关键字消息，暂时做文本消息处理
                         responseModel.Content = "收到关键字消息，内容：" + ReciveModel.Content;
                     }
                     else
                     {
                         string user = ReciveModel.FromUserName.Replace("_","");
-                        responseModel.Content = TuringRebotRequest.AskTuring(user, ReciveModel.Content);
+                        TuringResponseModel TuringModel = TuringRebotRequest.AskTuring(user, ReciveModel.Content);
+                        responseModel = TuringResponseModel(TuringModel, ReciveModel);
                     }
                     break;
                 case "image"://图片
+                    responseModel.ToUserName = ReciveModel.FromUserName;
+                    responseModel.FromUserName = ReciveModel.ToUserName;
+                    responseModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
+                    responseModel.MsgType = "text";
                     responseModel.Content = "发的是什么鬼！！";//，内容：" + ReciveModel.Content;
                     break;
                 default:
+                    responseModel.ToUserName = ReciveModel.FromUserName;
+                    responseModel.FromUserName = ReciveModel.ToUserName;
+                    responseModel.CreateTime = TimeHelper.GetTimeStamp(DateTime.Now);
+                    responseModel.MsgType = "text";
                     responseModel.Content = "虽然你说了那么多，我就当没听见吧。";
                     break;
             }
 
 
             return responseModel;
+        }
+
+        public WxMessageResXmlModel TuringResponseModel(TuringResponseModel TuringResponseModel, WxMessageRecXmlModel ReciveModel)
+        {
+            WxMessageResXmlModel WxMessageResXmlModel = new WxMessageResXmlModel();
+            switch (TuringResponseModel.code)
+            {
+                default:
+                    
+                        break;
+            }
+            return WxMessageResXmlModel;
         }
 
         public string GetResponse(WxMessageResXmlModel ResponseModel)

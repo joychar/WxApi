@@ -63,10 +63,31 @@
 
         });
     }
+
+    function postTuring() {
+        var ask = $("#askTuring").val();
+        $.ajax({
+            url: "/test/PostTuring",
+            type: "post",
+            data: { content: ask },
+            dataType: "json",
+            anysc: false,
+            success: function (result) {
+                alert(result.content);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown + ':' + textStatus); // 错误处理
+            }
+
+        });
+    }
 </script>
 <h2>Index</h2>
 
 <input type="button" value="postXML" onclick="post()"/><br />
 <input id="setval" type="text" value="" />
 <input type="button" value="setRedis" onclick="setRedis()" /><br />
-<input type="button" value="getRedis" onclick="getRedis()" />
+<input type="button" value="getRedis" onclick="getRedis()" /><br />
+
+<input id="askTuring" type="text" />
+<input type="button" value="postturing" onclick="postTuring()" /><br />

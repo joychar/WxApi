@@ -45,6 +45,7 @@
     <Compile Include="ViewModel\FailedResultModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\IPAddressModel.cs" />
+    <Compile Include="ViewModel\TuringResponseModel.cs" />
     <Compile Include="ViewModel\UploadImgModel.cs" />
     <Compile Include="PostModel\PostNewsModel.cs" />
     <Compile Include="ViewModel\UploadNewsModel.cs" />
