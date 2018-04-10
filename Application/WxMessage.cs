@@ -111,10 +111,16 @@ namespace Application
                     WxMessageResXmlModel.Content = TuringResponseModel.text + System.Environment.NewLine + TuringResponseModel.url;
                     break;
                 case 302000://新闻类
+                    WxMessageResXmlModel.MsgType = "text";
+                    WxMessageResXmlModel.Content = TuringResponseModel.text;
                     break;
                 case 308000://菜谱类
+                    WxMessageResXmlModel.MsgType = "text";
+                    WxMessageResXmlModel.Content = TuringResponseModel.text;
                     break;
                 default:
+                    WxMessageResXmlModel.MsgType = "text";
+                    WxMessageResXmlModel.Content = TuringResponseModel.text;
                     break;
             }
             return WxMessageResXmlModel;
