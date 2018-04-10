@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppModel\FunctionModel.cs" />
+    <Compile Include="AppModel\PersonCurrentModel.cs" />
+    <Compile Include="AppModel\PersonCurrentStateEnum.cs" />
+    <Compile Include="AppModel\PersonModel.cs" />
     <Compile Include="PostModel\WeChatArticleModel.cs" />
     <Compile Include="ViewModel\AccessTokenModel.cs" />
     <Compile Include="ViewModel\FailedResultModel.cs" />
@@ -52,9 +56,7 @@
     <Compile Include="ViewModel\WxMessageRecXmlModel.cs" />
     <Compile Include="ViewModel\WxMessageResXmlModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AppModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

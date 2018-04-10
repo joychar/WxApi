@@ -35,10 +35,10 @@ namespace WxApi.Controllers.APIControllers
                 byte[] requestByte = new byte[requestStream.Length];
                 requestStream.Read(requestByte, 0, (int)requestStream.Length);
                 string requestStr = Encoding.UTF8.GetString(requestByte);
-                log.Info(requestStr);
+                //log.Info(requestStr);
 
                 string responseStr = new WxMessage().Response(requestStr);
-                log.Info("Controller回复：" + responseStr);
+                //log.Info("Controller回复：" + responseStr);
 
                 responseMessage = new HttpResponseMessage { Content = new StringContent(responseStr, Encoding.GetEncoding("UTF-8"), "text/plain") };
 
