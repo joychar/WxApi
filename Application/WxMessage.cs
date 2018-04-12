@@ -6,11 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Tencent;
 
 namespace Application
 {
     public class WxMessage
     {
+        private readonly string Appid = "wxc7b16818ed7c01c2";
+        private readonly string Token = "pandahouse";
+        private readonly string SEncodingAESKey = "UC0BGzmPRJDUTx7j8FFOlwGbHiOImkye44oZmFEV76w";
+        private WXBizMsgCrypt WxDecode;
+        public WxMessage()
+        {
+            this.WxDecode = new WXBizMsgCrypt(Token, SEncodingAESKey, Appid);
+
+        }
 
         public WxMessageRecXmlModel InitMessageModel(string Msg)
         {
@@ -93,6 +103,15 @@ namespace Application
             return responseModel;
         }
 
+        public bool ResponseModel(WxMessageRecXmlModel ReciveModel, ref string sEncryptMsg)
+        {
+            WxMessageResXmlModel replyMsg = ResponseModel(ReciveModel);
+            string timeStamp = "";
+            string nonce = "";
+            WxDecode.EncryptMsg(GetResponse(replyMsg), timeStamp, nonce, ref sEncryptMsg);
+            return true;
+        }
+
         public WxMessageResXmlModel TuringResponseModel(TuringResponseModel TuringResponseModel, WxMessageRecXmlModel ReciveModel)
         {
             WxMessageResXmlModel WxMessageResXmlModel = new WxMessageResXmlModel();
@@ -160,41 +179,6 @@ namespace Application
             return xml.InnerXml;
         }
 
-        public string GetSecretResponse(WxMessageResXmlModel ResponseModel, string sReqTimeStamp, string sReqNonce)
-        {
-            string sToken = "";
-            string sEncodingAESKey = "";
-            string sAppID = "";
-
-            Tencent.WXBizMsgCrypt wxcpt = new Tencent.WXBizMsgCrypt(sToken, sEncodingAESKey, sAppID);
-
-            string sRespData = GetResponse(ResponseModel);
-            string sEncryptMsg = ""; //xml格式的密文
-            int ret = wxcpt.EncryptMsg(sRespData, sReqTimeStamp, sReqNonce, ref sEncryptMsg);
-
-            XmlDocument xml = new XmlDocument();
-
-            XmlElement root = xml.CreateElement("xml");
-            xml.AppendChild(root);
-
-            XmlElement Encrypt = xml.CreateElement("Encrypt");
-            XmlCDataSection encrypt = xml.CreateCDataSection(sEncryptMsg);
-            Encrypt.AppendChild(encrypt);
-            root.AppendChild(Encrypt);
-
-            XmlElement MsgSignature = xml.CreateElement("MsgSignature");
-            root.AppendChild(MsgSignature);
-
-            XmlElement TimeStamp = xml.CreateElement("TimeStamp");
-            TimeStamp.InnerText = ResponseModel.CreateTime;
-            root.AppendChild(TimeStamp);
-
-            XmlElement Nonce = xml.CreateElement("Nonce");
-            root.AppendChild(Nonce);
-
-            return xml.InnerXml;
-        }
-
         public string Response(string msg)
         {
             WxMessageRecXmlModel requestModec = InitMessageModel(msg);
@@ -202,5 +186,20 @@ namespace Application
             return GetResponse(responseModel);
         }
 
+        public bool Response(string msg, string sTimeStamp, string sNonce,string sMsgSignature, ref string responseMsg)
+        {
+            int errorCode = WxDecode.DecryptMsg(sMsgSignature, sTimeStamp, sNonce, msg, ref responseMsg);
+            if (errorCode != 0)
+            {
+                string error = ErrorMessage.TranslateErrorCode(errorCode);
+                return false;
+            }
+            else
+            {
+                WxMessageRecXmlModel requestModec = InitMessageModel(responseMsg);
+                return ResponseModel(requestModec, ref responseMsg);
+            }
+
+        }
     }
 }

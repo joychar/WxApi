@@ -49,6 +49,8 @@
     <Compile Include="ViewModel\UploadImgModel.cs" />
     <Compile Include="PostModel\PostNewsModel.cs" />
     <Compile Include="ViewModel\UploadNewsModel.cs" />
+    <Compile Include="ViewModel\WechatSecretReqMessage.cs" />
+    <Compile Include="ViewModel\WechatSecretResMessage.cs" />
     <Compile Include="ViewModel\WxMessageRecXmlModel.cs" />
     <Compile Include="ViewModel\WxMessageResXmlModel.cs" />
   </ItemGroup>
